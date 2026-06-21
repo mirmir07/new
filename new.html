@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- To test the title of your website using Selenium, Java, and TestNG, follow all the steps 
+of program 4b to publish your website on GitHub pages. Once your website is ready, 
+now follow the given steps to test the title of your website. 
+Step 1: Set Up Selenium and TestNG Dependencies 
+In your Maven project created in program 4b, add the necessary dependencies for 
+Selenium WebDriver and TestNG to the pom.xml file: 
+<dependencies> 
+  <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java --> 
+  <dependency> 
+     <groupId>org.seleniumhq.selenium</groupId> 
+     <artifactId>selenium-java</artifactId> 
+     <version>4.28.1</version> 
+  </dependency> 
+     <!-- https://mvnrepository.com/artifact/org.testng/testng --> 
+     <dependency> 
+        <groupId>org.testng</groupId> 
+        <artifactId>testng</artifactId> 
+        <version>7.11.0</version> 
+        <scope>test</scope> 
+     </dependency> 
+ </dependencies> 
+• Selenium WebDriver: This is used for browser automation. 
+• TestNG: This is a testing framework used to run Selenium tests. 
+Step 2: Create Selenium Test Class Using TestNG 
+Next, create a test class in your src/test/java directory. You can name 
+WebsiteTitleTest.java. 
+ 
+/*  WebsPageTest.java */ 
+import org.openqa.selenium.WebDriver; 
+import org.openqa.selenium.chrome.ChromeDriver; 
+import org.testng.Assert; 
+import org.testng.annotations.AfterTest; 
+import org.testng.annotations.BeforeTest; 
+import org.testng.annotations.Test; 
+import static org.testng.Assert.assertTrue; 
+public class WebPageTest 
+{ 
+    private static WebDriver driver; 
+    @BeforeTest 
+    public void openBrowser() throws InterruptedException 
+    { 
+        driver = new ChromeDriver(); 
+        driver.manage().window().maximize(); 
+        Thread.sleep(2000); 
+        driver.get("https://sarvarbegum-coder.github.io/LAB_1/"); 
+    } 
+    @Test 
+    public void titleValidationTest() 
+    { 
+        String actualTitle = driver.getTitle(); 
+        String expectedTitle = "My simple website"; 
+        Assert.assertEquals(actualTitle, expectedTitle); 
+        assertTrue(true, "Title should contain 'simple'"); 
+    } 
+    @AfterTest 
+    public void closeBrowser() throws InterruptedException 
+    { 
+        Thread.sleep(1000); 
+        driver.quit(); 
+    } 
+} 
+Step 3: Run the Test Using TestNG 
+Option 1: Run TestNG from IntelliJ IDEA 
+       1. Right-click the WebpageTest.java file. 
+       2. Select Run WebpageTest. 
+IntelliJ IDEA will execute the TestNG test and show the results in the output console. 
+Option 2: Run TestNG via Command Line 
+If you want to run the tests from the command line, use the following Maven 
+command: 
+      mvn test 
+b) Illustrate the maven site and deploy commands. 
+ 
+mvn site command :  
+The mvn site command is used to generate a project website containing reports like 
+dependencies, build details, test results, and more 
+Step 1: Create a New Maven Project: 
+• Open IntelliJ IDEA. 
+• Go to File > New > Project . 
+• Select Maven from the project types. 
+• Set the project name and location, then click Finish . 
+Step 2: Add Site Plugin in pom.xml 
+Before running the site command, you need to add the Maven Site Plugin inside the 
+<build> section of your pom.xml :  
+<build> 
+    <plugins> 
+        <plugin> 
+            <groupId>org.apache.maven.plugins</groupId> 
+            <artifactId>maven-site-plugin</artifactId> 
+            <version>3.12.1</version> <!-- Use latest version --> 
+        </plugin> 
+    </plugins> 
+</build> 
+Step 3: Run the Site Command 
+Once the plugin is added, execute: 
+   mvn site 
+• Maven scans your project for available reports. 
+• Generates an HTML-based website inside target/site/ . 
+• Includes various reports like dependencies, plugin management, and test 
+results. 
+Step 4: Open the Generated Site 
+After successful execution, open the following file in a browser: 
+     D:\Idea Projects\CA-MVN\target\site\index.html 
+ 
+mvn  deploy command:  
+The mvn deploy command is used to upload the built artifact (JAR, POM, etc.) to a 
+repository for distribution and sharing. 
+Create a Local Repository: Let us create the local repository for the project created for 
+site command. 
+Step 1:  Open terminal and create a new directory using the following command 
+                     mkdir D:\my-local-maven-repo 
+Step 2: Configure pom.xml for Local Deployment 
+Add the following inside <project> in pom.xml : 
+<distributionManagement> 
+    <repository> 
+        <id>local-repo</id> 
+        <url>file:///D:/my-local-maven-repo</url> 
+    </repository> 
+</distributionManagement> 
+Step 3: Run the Deploy Command 
+    mvn deploy 
+Maven builds the project and stores the artifact (JAR, POM, etc.) in D:/my-local-maven
+repo. 
+Step 4: Verify Deployment 
+• Navigate to D:/my-local-maven-repo/ and check if the project is stored correctly 
+D:/my-local-maven-repo/ 
+├── org/example/CA-MVN/1.0-SNAPSHOT/ 
+│ ├── CA-MVN-1.0-SNAPSHOT.jar 
+              │ ├── CA-MVN-1.0-SNAPSHOT.pom
+                   
+
+
+
+
+
+
+
+
+
+
+
+              ------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-------------------------
+
+
+
+
+
+
+
+
+
+
+
+              22222
+
+
+
+               Modify Maven Configuration to Copy Static Files to /docs Folder: First, you need 
+to ensure that Maven places your static files (index.html, style.css, logo.png) into 
+the /docs folder instead of the target directory. To do this, configure the Maven 
+Resources Plugin in your pom.xml to copy the files directly into /docs: 
+   <build> 
+    <plugins> 
+      <plugin> 
+        <artifactId>maven-resources-plugin</artifactId> 
+        <version>3.3.1</version> 
+        <executions> 
+          <execution> 
+            <id>copy-resources</id> 
+            <!-- here the phase you need --> 
+            <phase>validate</phase> 
+            <goals> 
+              <goal>copy-resources</goal> 
+            </goals> 
+            <configuration> 
+              <outputDirectory>${project.basedir}/docs</outputDirectory> 
+              <resources>           
+                <resource> 
+                  <directory>src/main/resources</directory> 
+                  <filtering>true</filtering> 
+                </resource> 
+              </resources>               
+            </configuration>             
+          </execution> 
+        </executions> 
+      </plugin> 
+    </plugins> 
+  </build> 
+In this configuration: 
+          The maven-resources-plugin copies all files from src/main/resources to the /docs 
+           folder in the root of your project(not the target directory).This is done during the   
+           prepare-package phase, just before Maven prepares the package. 
+ 
+• Build the Project: Run the following Maven command to build your project and 
+copy the resources to the /docs folder: 
+                       mvn clean install 
+After this, your index.html , should now be inside the docs folder in the root of your 
+project. 
+Step-3: Upload the Website to GitHub: Now that the files are in the /docs folder, they are 
+ready to be served by GitHub Pages. 
+       Follow these steps: 
+o Initialize a Git repository in your project folder: 
+▪ git init 
+o Add your files and commit them: 
+▪ git add . 
+▪ git commit -m "Initial commit" 
+o Create a GitHub repository and push the local project to GitHub: 
+git remote add origin <your-repository-url> 
+git push -u origin master  
+Step-4: Enable GitHub Pages: After pushing to the main branch, follow these steps to 
+enable GitHub Pages: 
+o Go to your GitHub repository. 
+o Navigate to Settings > Pages (on the left sidebar). 
+o Under the Source section, select the main branch and /docs folder as the 
+source. 
+o Click Save. 
+Step-5: Access Your Website: Your static website is now hosted on GitHub Pages! You 
+can access it at 
+https://<your-github-username>.github.io/<your-repository-name>/
+            
+            
+            
+            -->
+</body>
+</html>
