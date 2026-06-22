@@ -6,149 +6,53 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- To test the title of your website using Selenium, Java, and TestNG, follow all the steps 
-of program 4b to publish your website on GitHub pages. Once your website is ready, 
-now follow the given steps to test the title of your website. 
-Step 1: Set Up Selenium and TestNG Dependencies 
-In your Maven project created in program 4b, add the necessary dependencies for 
-Selenium WebDriver and TestNG to the pom.xml file: 
-<dependencies> 
-  <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java --> 
-  <dependency> 
-     <groupId>org.seleniumhq.selenium</groupId> 
-     <artifactId>selenium-java</artifactId> 
-     <version>4.28.1</version> 
-  </dependency> 
-     <!-- https://mvnrepository.com/artifact/org.testng/testng --> 
-     <dependency> 
-        <groupId>org.testng</groupId> 
-        <artifactId>testng</artifactId> 
-        <version>7.11.0</version> 
-        <scope>test</scope> 
-     </dependency> 
- </dependencies> 
-• Selenium WebDriver: This is used for browser automation. 
-• TestNG: This is a testing framework used to run Selenium tests. 
-Step 2: Create Selenium Test Class Using TestNG 
-Next, create a test class in your src/test/java directory. You can name 
-WebsiteTitleTest.java. 
- 
-/*  WebsPageTest.java */ 
-import org.openqa.selenium.WebDriver; 
-import org.openqa.selenium.chrome.ChromeDriver; 
-import org.testng.Assert; 
-import org.testng.annotations.AfterTest; 
-import org.testng.annotations.BeforeTest; 
-import org.testng.annotations.Test; 
-import static org.testng.Assert.assertTrue; 
-public class WebPageTest 
-{ 
-    private static WebDriver driver; 
-    @BeforeTest 
-    public void openBrowser() throws InterruptedException 
-    { 
-        driver = new ChromeDriver(); 
-        driver.manage().window().maximize(); 
-        Thread.sleep(2000); 
-        driver.get("https://sarvarbegum-coder.github.io/LAB_1/"); 
-    } 
-    @Test 
-    public void titleValidationTest() 
-    { 
-        String actualTitle = driver.getTitle(); 
-        String expectedTitle = "My simple website"; 
-        Assert.assertEquals(actualTitle, expectedTitle); 
-        assertTrue(true, "Title should contain 'simple'"); 
-    } 
-    @AfterTest 
-    public void closeBrowser() throws InterruptedException 
-    { 
-        Thread.sleep(1000); 
-        driver.quit(); 
-    } 
-} 
-Step 3: Run the Test Using TestNG 
-Option 1: Run TestNG from IntelliJ IDEA 
-       1. Right-click the WebpageTest.java file. 
-       2. Select Run WebpageTest. 
-IntelliJ IDEA will execute the TestNG test and show the results in the output console. 
-Option 2: Run TestNG via Command Line 
-If you want to run the tests from the command line, use the following Maven 
-command: 
-      mvn test 
-b) Illustrate the maven site and deploy commands. 
- 
-mvn site command :  
-The mvn site command is used to generate a project website containing reports like 
-dependencies, build details, test results, and more 
-Step 1: Create a New Maven Project: 
-• Open IntelliJ IDEA. 
-• Go to File > New > Project . 
-• Select Maven from the project types. 
-• Set the project name and location, then click Finish . 
-Step 2: Add Site Plugin in pom.xml 
-Before running the site command, you need to add the Maven Site Plugin inside the 
-<build> section of your pom.xml :  
-<build> 
-    <plugins> 
-        <plugin> 
-            <groupId>org.apache.maven.plugins</groupId> 
-            <artifactId>maven-site-plugin</artifactId> 
-            <version>3.12.1</version> <!-- Use latest version --> 
-        </plugin> 
-    </plugins> 
-</build> 
-Step 3: Run the Site Command 
-Once the plugin is added, execute: 
-   mvn site 
-• Maven scans your project for available reports. 
-• Generates an HTML-based website inside target/site/ . 
-• Includes various reports like dependencies, plugin management, and test 
-results. 
-Step 4: Open the Generated Site 
-After successful execution, open the following file in a browser: 
-     D:\Idea Projects\CA-MVN\target\site\index.html 
- 
-mvn  deploy command:  
-The mvn deploy command is used to upload the built artifact (JAR, POM, etc.) to a 
-repository for distribution and sharing. 
-Create a Local Repository: Let us create the local repository for the project created for 
-site command. 
-Step 1:  Open terminal and create a new directory using the following command 
-                     mkdir D:\my-local-maven-repo 
-Step 2: Configure pom.xml for Local Deployment 
-Add the following inside <project> in pom.xml : 
-<distributionManagement> 
-    <repository> 
-        <id>local-repo</id> 
-        <url>file:///D:/my-local-maven-repo</url> 
-    </repository> 
-</distributionManagement> 
-Step 3: Run the Deploy Command 
-    mvn deploy 
-Maven builds the project and stores the artifact (JAR, POM, etc.) in D:/my-local-maven
-repo. 
-Step 4: Verify Deployment 
-• Navigate to D:/my-local-maven-repo/ and check if the project is stored correctly 
-D:/my-local-maven-repo/ 
-├── org/example/CA-MVN/1.0-SNAPSHOT/ 
-│ ├── CA-MVN-1.0-SNAPSHOT.jar 
-              │ ├── CA-MVN-1.0-SNAPSHOT.pom
-                   
-
-
-
-
-
-
+    <!--  111111111111111111   
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+# Load the dataset from your local machine (change path as needed)
+local_file_path = "C:/datasets/housing.csv"  # <-- Change this path
+data = pd.read_csv(local_file_path)
 
+# Display first few rows
+print("First few rows of the dataset:\n", data.head())
 
+# List numerical features (exclude 'ocean_proximity')
+numerical_features = data.select_dtypes(include=[np.number]).columns.tolist()
 
+# 1. Histograms
+print("\nCreating histograms for all numerical features...")
+data[numerical_features].hist(bins=30, figsize=(15, 10), color='skyblue', edgecolor='black')
+plt.suptitle('Histograms of California Housing Features (Offline)', fontsize=16)
+plt.show()
 
-              ------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-------------------------
+# 2. Distribution analysis
+print("\nDistribution Analysis:")
+for feature in numerical_features:
+    skewness = data[feature].skew()
+    kurtosis = data[feature].kurtosis()
+    print(f"{feature}: Skewness = {skewness:.2f}, Kurtosis = {kurtosis:.2f}")
 
+# 3. Box plots for outlier detection
+print("\nGenerating box plots for all numerical features...")
+plt.figure(figsize=(15, 10))
+for i, feature in enumerate(numerical_features, 1):
+    plt.subplot(3, 3, i)
+    sns.boxplot(y=data[feature], color='lightgreen')
+    plt.title(f'Boxplot of {feature}')
+plt.tight_layout()
+plt.show()
 
+# 4. Identify outliers using IQR
+print("\nIdentifying outliers using IQR method:")
+for feature in numerical_features:
+    Q1 = data[feature].quantile(0.25)
+    Q3 = data[feature].quantile(0.75)
+    IQR = Q3 - Q1
+    outliers = data[(data[feature] < (Q1 - 1.5 * IQR)) | (data[feature] > (Q3 + 1.5 * IQR))]
+    print(f"{feature}: {len(outliers)} outliers detected.")
 
 
 
@@ -158,319 +62,300 @@ D:/my-local-maven-repo/
 
 
 
-              22222
 
+    22222222222222
 
 
-               Modify Maven Configuration to Copy Static Files to /docs Folder: First, you need 
-to ensure that Maven places your static files (index.html, style.css, logo.png) into 
-the /docs folder instead of the target directory. To do this, configure the Maven 
-Resources Plugin in your pom.xml to copy the files directly into /docs: 
-   <build> 
-    <plugins> 
-      <plugin> 
-        <artifactId>maven-resources-plugin</artifactId> 
-        <version>3.3.1</version> 
-        <executions> 
-          <execution> 
-            <id>copy-resources</id> 
-            <!-- here the phase you need --> 
-            <phase>validate</phase> 
-            <goals> 
-              <goal>copy-resources</goal> 
-            </goals> 
-            <configuration> 
-              <outputDirectory>${project.basedir}/docs</outputDirectory> 
-              <resources>           
-                <resource> 
-                  <directory>src/main/resources</directory> 
-                  <filtering>true</filtering> 
-                </resource> 
-              </resources>               
-            </configuration>             
-          </execution> 
-        </executions> 
-      </plugin> 
-    </plugins> 
-  </build> 
-In this configuration: 
-          The maven-resources-plugin copies all files from src/main/resources to the /docs 
-           folder in the root of your project(not the target directory).This is done during the   
-           prepare-package phase, just before Maven prepares the package. 
- 
-• Build the Project: Run the following Maven command to build your project and 
-copy the resources to the /docs folder: 
-                       mvn clean install 
-After this, your index.html , should now be inside the docs folder in the root of your 
-project. 
-Step-3: Upload the Website to GitHub: Now that the files are in the /docs folder, they are 
-ready to be served by GitHub Pages. 
-       Follow these steps: 
-o Initialize a Git repository in your project folder: 
-▪ git init 
-o Add your files and commit them: 
-▪ git add . 
-▪ git commit -m "Initial commit" 
-o Create a GitHub repository and push the local project to GitHub: 
-git remote add origin <your-repository-url> 
-git push -u origin master  
-Step-4: Enable GitHub Pages: After pushing to the main branch, follow these steps to 
-enable GitHub Pages: 
-o Go to your GitHub repository. 
-o Navigate to Settings > Pages (on the left sidebar). 
-o Under the Source section, select the main branch and /docs folder as the 
-source. 
-o Click Save. 
-Step-5: Access Your Website: Your static website is now hosted on GitHub Pages! You 
-can access it at 
-https://<your-github-username>.github.io/<your-repository-name>/
-            
-            
-            
-            -->
-</body>
-</html>.          
 
 
+    import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import os
 
+#step1: Load the california Housing dataset from local directory
+file_path=r"C:/Users/DELL/Downloads/housing.csv"
 
+#check if the file exists
+if os.path.exists(file_path):
+    data = pd.read_csv(file_path)
+else:
+    print(f"File not found:{file_path}")
+    exit()
+    
+#step2:compute the correlation matrix
+correlation_matrix=data.corr(numeric_only=True)
 
+#step3: Visualize the correlation
+plt.figure(figsize=(10,8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+plt.title('correlation Matrix of califronia housing features')
+plt.show()
 
-    7777777
+#step4
+sns.pairplot(data, diag_kind='kde',plot_kws={'alpha':0.5})
+plt.suptitle('Pair plot of california housing features,y=1.02')
+plt.show()
 
 
-    Step 1: Set Up Selenium and TestNG Dependencies
 
-In your Maven project created in program 4b, add the necessary dependencies for 
 
-Selenium WebDriver and TestNG to the pom.xml file:
 
-<dependencies>
 
- <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 
- <dependency>
 
- <groupId>org.seleniumhq.selenium</groupId>
 
- <artifactId>selenium-java</artifactId>
+    3333333333333
 
- <version>4.28.1</version>
 
- </dependency>
 
- <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+    import numpy as np
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
 
- <dependency>
+#Load the iris dataset
+iris=load_iris()
+data=iris.data
+labels= iris.target
+label_names= iris.target_names
 
- <groupId>org.testng</groupId>
+#convert to a dataframe for bettre visualization
+iris_df=pd.DataFrame(data, columns=iris.feature_names)
 
- <artifactId>testng</artifactId>
+#perform PCA to reduce dimensionality to 2
+pca=PCA(n_components=2)
+data_reduced=pca.fit_transform(data)
 
- <version>7.11.0</version>
+#create a dataframe for the reduced data
+reduced_df=pd.DataFrame(data_reduced, columns=['Principal component 1',
+                                               'Principal component 2'])
+reduced_df['Label']=labels
 
- <scope>test</scope>
+#plot the reduced data
+plt.figure(figsize=(8,6))
+colors=['r','g','b']
+for i , label in enumerate(np.unique(labels)):
+    plt.scatter(reduced_df[reduced_df['Label']==label]['Principal component 1'],
+                reduced_df[reduced_df['Label']==label]['Principal component 2'],
+                label=label_names[label],color=colors[i])
+plt.title('PCA on irs dataset')
+plt.xlabel('Principal component 1')
+plt.ylabel('Principal component 2')
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
+
 
- </dependency>
+
+
+    4444444444444444
+
+
+
+
+    import pandas as pd
+def find_s_algorithm(file_path):
+     data = pd.read_csv(file_path)
+     print("Training data:")
+     print(data)
+     attributes = data.columns[:-1]
+     class_label = data.columns[-1]
+     hypothesis = ['?' for _ in attributes]
+     for index, row in data.iterrows():
+         if row[class_label] == 'yes':
+             for i, value in enumerate(row[attributes]):
+                 if hypothesis[i] == '?' or hypothesis[i] == value: 
+                     hypothesis[i] = value
+                 else:
+                     hypothesis[i] = '?'
+                     return hypothesis
+file_path =' C:/Users/DELL/Desktop/cd040/Downloads/data.csv'
+hypothesis = find_s_algorithm("C:/Users/DELL/Desktop/cd040/Downloads/data.csv")
 
-</dependencies>
+print("\nThe final hypothesis is:", hypothesis)
 
-• Selenium WebDriver: This is used for browser automation.
 
-• TestNG: This is a testing framework used to run Selenium tests.
 
-Step 2: Create Selenium Test Class Using TestNG
 
-Next, create a test class in your src/test/java directory. You can name
 
-WebsiteTitleTest.java.
+
+
+   66666666666666666
 
-/* WebsPageTest.java */
+    import numpy as np
+import matplotlib.pyplot as plt 
+def gaussian_kernel(x,xi,tau):
+    return np.exp(-np.sum((x - xi)**2)/(2*tau**2))
+def locally_weighted_regression(x,X,y,tau):
+    m=X.shape[0]
+    weights=np.array([gaussian_kernel(x,X[i],tau) for i in range(m)])
+    W=np.diag(weights)
+    X_transpose_W=X.T @W
+    theta=np.linalg.inv(X_transpose_W@X)@X_transpose_W@y
+    return x @ theta
+np.random.seed(42)
+X=np.linspace(0,2*np.pi,100)
+y=np.sin(X)+0.1*np.random.randn(100)
+X_bias=np.c_[np.ones(X.shape),X]
+x_test=np.linspace(0,2*np.pi,200)
+x_test_bias= np.c_[np.ones(x_test.shape),x_test]
+tau=0.5
+y_pred=np.array([locally_weighted_regression(xi, X_bias, y, tau) 
+                 for xi in x_test_bias])
+plt.figure(figsize=(10,6))
+plt.scatter(X,y,color='red',label='Training Data',alpha=0.7)
+plt.plot(x_test,y_pred,color='blue',label=f'LWR Fit(tau={tau})',linewidth=2)
+plt.xlabel('X',fontsize=12)
+plt.ylabel('y',fontsize=12)
+plt.title('Locally Weighted Regression',fontsize=14)
+plt.legend(fontsize=10)
+plt.grid(alpha=0.3)
+plt.show()
 
-import org.openqa.selenium.WebDriver;
 
-import org.openqa.selenium.chrome.ChromeDriver;
 
-import org.testng.Assert;
+    88888888888888888
 
-import org.testng.annotations.AfterTest;
+    import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn import tree
+data = load_breast_cancer()
+X = data.data
+y = data.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+clf = DecisionTreeClassifier(random_state=42)
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Model Accuracy: {accuracy * 100:.2f}%")
+new_sample = np.array([X_test[0]])
+prediction = clf.predict(new_sample)
+prediction_class = "Benign" if prediction == 1 else "Malignant"
+print(f"Predicted Class for the new sample: {prediction_class}")
+plt.figure(figsize=(12,8))
+tree.plot_tree(clf, filled=True, feature_names=data.feature_names, class_names=data.target_names)
+plt.title("Decision Tree - Breast Cancer Dataset")
+plt.show()
 
-import org.testng.annotations.BeforeTest;
 
-import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertTrue;
+    9999999999999999999999999
 
-public class WebPageTest
+    import numpy as np
+from sklearn.datasets import fetch_olivetti_faces
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import matplotlib.pyplot as plt
 
-{
+data = fetch_olivetti_faces(shuffle=True, random_state=42)
+X = data.data
+y = data.target
 
-private static WebDriver driver;
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-@BeforeTest
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+y_pred = gnb.predict(X_test)
 
-public void openBrowser() throws InterruptedException
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy * 100:.2f}%')
 
-{
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred, zero_division=1))
 
-driver = new ChromeDriver();
-    driver.manage().window().maximize();
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
 
-Thread.sleep(2000);
+cross_val_accuracy = cross_val_score(gnb, X, y, cv=5, scoring='accuracy')
+print(f'\nCross-validation accuracy: {cross_val_accuracy.mean() * 100:.2f}%')
 
-driver.get("https://sarvarbegum-coder.github.io/LAB_1/");
+fig, axes = plt.subplots(3, 5, figsize=(12, 8))
+for ax, image, label, prediction in zip(axes.ravel(), X_test, y_test, y_pred):
+    ax.imshow(image.reshape(64, 64), cmap=plt.cm.gray)
+    ax.set_title(f"True: {label}, Pred: {prediction}")
+    ax.axis('off')
 
-}
+plt.show()
 
-@Test
 
-public void titleValidationTest()
 
-{
 
-String actualTitle = driver.getTitle();
 
-String expectedTitle = "My simple website";
 
-Assert.assertEquals(actualTitle, expectedTitle);
+    10101010101010
 
-assertTrue(true, "Title should contain 'simple'");
 
-}
 
-@AfterTest
+    import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_breast_cancer
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.metrics import confusion_matrix, classification_report
 
-public void closeBrowser() throws InterruptedException
+data = load_breast_cancer()
+X = data.data
+y = data.target
 
-{
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
 
-Thread.sleep(1000);
+kmeans = KMeans(n_clusters=2, random_state=42)
+y_kmeans = kmeans.fit_predict(X_scaled)
 
-driver.quit();
+print("Confusion Matrix:")
+print(confusion_matrix(y, y_kmeans))
+print("\nClassification Report:")
+print(classification_report(y, y_kmeans))
 
-}
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled)
 
-}
+df = pd.DataFrame(X_pca, columns=['PC1', 'PC2'])
+df['Cluster'] = y_kmeans
+df['True Label'] = y
 
-Step 3: Add your files, commit and push the changes to GitHub:
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=df, x='PC1', y='PC2', hue='Cluster', palette='Set1', s=100, edgecolor='black', alpha=0.7)
+plt.title('K-Means Clustering of Breast Cancer Dataset')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.legend(title="Cluster")
+plt.show()
 
-o git add .
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=df, x='PC1', y='PC2', hue='True Label', palette='coolwarm', s=100, edgecolor='black', alpha=0.7)
+plt.title('True Labels of Breast Cancer Dataset')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.legend(title="True Label")
+plt.show()
 
-o git commit -m "Initial commit"
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=df, x='PC1', y='PC2', hue='Cluster', palette='Set1', s=100, edgecolor='black', alpha=0.7)
+centers = pca.transform(kmeans.cluster_centers_)
+plt.scatter(centers[:, 0], centers[:, 1], s=200, c='red', marker='X', label='Centroids')
+plt.title('K-Means Clustering with Centroids')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.legend(title="Cluster")
+plt.show()
 
-o git push -u origin master
 
-Step 4: Running a Selenium Java Test from a Local Maven Project
 
-• Create a New Jenkins Job
 
-o Go to Jenkins Dashboard → Click New Item.
 
-o Enter a project name → Select Freestyle Project.
-
-o Click OK.
-
-• Configure the Build Step
-
-o Scroll to Build → Click Add build step → Execute Windows Batch 
-
-Command.
-
-o Enter the following commands (ensure correct navigation to project 
-
-directory):
-
- cd <Absolute path of project>
-
- mvn test
-
-o Click Save → Click Build Now to execute the test
-
-Step 5: Running Selenium Tests from a GitHub Repository via Jenkins
-
-• Set Up a New Jenkins Job for GitHub Project
-
-o Go to Jenkins Dashboard → Click New Item.
-
-o Enter a project name → Select Freestyle Project.
-
-o Click OK.
-
-• Configure Git Repository in Jenkins
-     Under Source Code Management, select Git.
-
-o Enter your GitHub repository URL (e.g., https://github.com/your-repo-
-
-name.git).
-
-• Add Build Step for Maven
-
-o Scroll to Build → Click Add build step → Invoke top-level Maven targets
-
-o Select maven version as MAVEN
-
-o Add Goals as test
-
-o Click Save.
-
-• Trigger the Build
-
-o Click Build Now to fetch the code from GitHub and execute the Selenium 
-
-tests.
-
-o Check the Console Output to verify test execution
-
-Step 6: Running Selenium Tests whenever we push the new code into GitHub
-
-repository
-
-• Set Up a New Jenkins Job for GitHub Project
-
-o Go to Jenkins Dashboard → Click New Item.
-
-o Enter a project name → Select Freestyle Project.
-
-o Click OK.
-
-• Configure Git Repository in Jenkins
-
-o Under Source Code Management, select Git.
-
-o Enter your GitHub repository URL (e.g., https://github.com/your-repo-
-
-name.git).
-
-• Configure triggers in Jenkins
-
-o Under triggers section, select poll SCM.
-
-o Schedule the trigger every minute by writing * * * * * in schedule. This will 
-
-make Jenkins to check for change in source code every minute. If there is a 
-
-change, then trigger the build
-
-• Add Build Step for Maven
-
-o Scroll to Build → Click Add build step → Invoke top-level Maven targets
-
-o Select maven version as MAVEN
-
-o Add Goals as test
-
-o Click Save.
-
-• Trigger the Build
-
-o Go to Intellij Idea, do some changes in index.html
-
-o Add the files using git add .
-
-o Commit the changes using git commit -m “message”
-
-o Push the modified code to git hub using git push -u origin master
-
-o Go to Jenkins, and check to see that the build is automatically started when 
-
-we pushed the changes to git hub
+    
