@@ -229,4 +229,248 @@ https://<your-github-username>.github.io/<your-repository-name>/
             
             -->
 </body>
-</html>
+</html>.          
+
+
+
+
+
+
+    7777777
+
+
+    Step 1: Set Up Selenium and TestNG Dependencies
+
+In your Maven project created in program 4b, add the necessary dependencies for 
+
+Selenium WebDriver and TestNG to the pom.xml file:
+
+<dependencies>
+
+ <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+
+ <dependency>
+
+ <groupId>org.seleniumhq.selenium</groupId>
+
+ <artifactId>selenium-java</artifactId>
+
+ <version>4.28.1</version>
+
+ </dependency>
+
+ <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+
+ <dependency>
+
+ <groupId>org.testng</groupId>
+
+ <artifactId>testng</artifactId>
+
+ <version>7.11.0</version>
+
+ <scope>test</scope>
+
+ </dependency>
+
+</dependencies>
+
+• Selenium WebDriver: This is used for browser automation.
+
+• TestNG: This is a testing framework used to run Selenium tests.
+
+Step 2: Create Selenium Test Class Using TestNG
+
+Next, create a test class in your src/test/java directory. You can name
+
+WebsiteTitleTest.java.
+
+/* WebsPageTest.java */
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.testng.Assert;
+
+import org.testng.annotations.AfterTest;
+
+import org.testng.annotations.BeforeTest;
+
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
+
+public class WebPageTest
+
+{
+
+private static WebDriver driver;
+
+@BeforeTest
+
+public void openBrowser() throws InterruptedException
+
+{
+
+driver = new ChromeDriver();
+    driver.manage().window().maximize();
+
+Thread.sleep(2000);
+
+driver.get("https://sarvarbegum-coder.github.io/LAB_1/");
+
+}
+
+@Test
+
+public void titleValidationTest()
+
+{
+
+String actualTitle = driver.getTitle();
+
+String expectedTitle = "My simple website";
+
+Assert.assertEquals(actualTitle, expectedTitle);
+
+assertTrue(true, "Title should contain 'simple'");
+
+}
+
+@AfterTest
+
+public void closeBrowser() throws InterruptedException
+
+{
+
+Thread.sleep(1000);
+
+driver.quit();
+
+}
+
+}
+
+Step 3: Add your files, commit and push the changes to GitHub:
+
+o git add .
+
+o git commit -m "Initial commit"
+
+o git push -u origin master
+
+Step 4: Running a Selenium Java Test from a Local Maven Project
+
+• Create a New Jenkins Job
+
+o Go to Jenkins Dashboard → Click New Item.
+
+o Enter a project name → Select Freestyle Project.
+
+o Click OK.
+
+• Configure the Build Step
+
+o Scroll to Build → Click Add build step → Execute Windows Batch 
+
+Command.
+
+o Enter the following commands (ensure correct navigation to project 
+
+directory):
+
+ cd <Absolute path of project>
+
+ mvn test
+
+o Click Save → Click Build Now to execute the test
+
+Step 5: Running Selenium Tests from a GitHub Repository via Jenkins
+
+• Set Up a New Jenkins Job for GitHub Project
+
+o Go to Jenkins Dashboard → Click New Item.
+
+o Enter a project name → Select Freestyle Project.
+
+o Click OK.
+
+• Configure Git Repository in Jenkins
+     Under Source Code Management, select Git.
+
+o Enter your GitHub repository URL (e.g., https://github.com/your-repo-
+
+name.git).
+
+• Add Build Step for Maven
+
+o Scroll to Build → Click Add build step → Invoke top-level Maven targets
+
+o Select maven version as MAVEN
+
+o Add Goals as test
+
+o Click Save.
+
+• Trigger the Build
+
+o Click Build Now to fetch the code from GitHub and execute the Selenium 
+
+tests.
+
+o Check the Console Output to verify test execution
+
+Step 6: Running Selenium Tests whenever we push the new code into GitHub
+
+repository
+
+• Set Up a New Jenkins Job for GitHub Project
+
+o Go to Jenkins Dashboard → Click New Item.
+
+o Enter a project name → Select Freestyle Project.
+
+o Click OK.
+
+• Configure Git Repository in Jenkins
+
+o Under Source Code Management, select Git.
+
+o Enter your GitHub repository URL (e.g., https://github.com/your-repo-
+
+name.git).
+
+• Configure triggers in Jenkins
+
+o Under triggers section, select poll SCM.
+
+o Schedule the trigger every minute by writing * * * * * in schedule. This will 
+
+make Jenkins to check for change in source code every minute. If there is a 
+
+change, then trigger the build
+
+• Add Build Step for Maven
+
+o Scroll to Build → Click Add build step → Invoke top-level Maven targets
+
+o Select maven version as MAVEN
+
+o Add Goals as test
+
+o Click Save.
+
+• Trigger the Build
+
+o Go to Intellij Idea, do some changes in index.html
+
+o Add the files using git add .
+
+o Commit the changes using git commit -m “message”
+
+o Push the modified code to git hub using git push -u origin master
+
+o Go to Jenkins, and check to see that the build is automatically started when 
+
+we pushed the changes to git hub
