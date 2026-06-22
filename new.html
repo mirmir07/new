@@ -358,4 +358,179 @@ plt.show()
 
 
 
-    
+    5555555555555555555
+
+
+
+    import numpy as np
+import matplotlib.pyplot as plt
+from collections import Counter
+
+data = np.random.rand(100)
+labels = ["Class1" if x <= 0.5 else "Class2" for x in data[:50]]
+
+def euclidean_distance(x1, x2):
+    return abs(x1 - x2)
+
+def knn_classifier(train_data, train_labels, test_point, k):
+    distances = [(euclidean_distance(test_point, train_data[i]), train_labels[i]) for i in range(len(train_data))]
+
+    distances.sort(key=lambda x: x[0])
+    k_nearest_neighbors = distances[:k]
+    k_nearest_labels = [label for _, label in k_nearest_neighbors]
+
+    return Counter(k_nearest_labels).most_common(1)[0][0]
+train_data = data[:50]
+train_labels = labels
+test_data = data[50:]
+k_values = [1, 2, 3, 4, 5, 20, 30]
+
+print("--- k-Nearest Neighbors Classification ---")
+print("Training dataset: First 50 points labeled based on the rule (x <= 0.5 -> Class1, x > 0.5 -> Class2)")
+print("Testing dataset: Remaining 50 points to be classified\n")
+
+results = {}
+
+for k in k_values:
+    print(f"Results for k = {k}:")
+    classified_labels = [knn_classifier(train_data, train_labels, test_point, k) for test_point in test_data]
+    results[k] = classified_labels
+
+    for i, label in enumerate(classified_labels, start=51):
+        print(f"Point x{i} (value: {test_data[i - 51]:.4f}) is classified as {label}")
+    print("\n")
+
+print("Classification complete.\n")
+
+for k in k_values:
+    classified_labels = results[k]
+    class1_points = [test_data[i] for i in range(len(test_data)) if classified_labels[i] == "Class1"]
+    class2_points = [test_data[i] for i in range(len(test_data)) if classified_labels[i] == "Class2"]
+
+    plt.figure(figsize=(10, 6))
+    plt.scatter(train_data, [0] * len(train_data), c=["blue" if label == "Class1" else "red" for label in train_labels],
+                label="Training Data", marker="o")
+    plt.scatter(class1_points, [1] * len(class1_points), c="blue", label="Class1 (Test)", marker="x")
+    plt.scatter(class2_points, [1] * len(class2_points), c="red", label="Class2 (Test)", marker="x")
+
+    plt.title(f"k-NN Classification Results for k = {k}")
+    plt.xlabel("Data Points")
+    plt.ylabel("Classification Level")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    777777777777777777777777777777
+
+
+
+
+
+    import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.preprocessing import PolynomialFeatures
+
+# Load Boston Housing Dataset from CSV
+# Make sure you have the correct column names
+column_names = [    'CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE',
+    'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
+boston_data = pd.read_csv("C:/Users/DELL/Downloads/BostonHousing (1).csv", header=None, names=column_names)
+
+# Use a single feature (e.g., RM) for simplicity and visualization
+X = boston_data[['RM']]  # Average number of rooms per dwelling
+y = boston_data['MEDV']  # Median value of owner-occupied homes
+
+# Split into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train Linear Regression Model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = model.predict(X_test)
+
+# Visualization
+plt.figure(figsize=(8, 5))
+plt.scatter(X_test, y_test, color='blue', label='Actual')
+plt.plot(X_test, y_pred, color='red', label='Predicted', linewidth=2)
+plt.xlabel("Average Number of Rooms (RM)")
+plt.ylabel("Median Value (MEDV)")
+plt.title("Linear Regression on Boston Housing Data")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+# Evaluation
+print("Linear Regression:")
+print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
+print("R^2 Score:", r2_score(y_test, y_pred))
+
+
+# ---------- Part 2: Polynomial Regression with Auto MPG Dataset ----------
+
+# Load dataset (Assume offline CSV file, adjust path if needed)
+auto_data = pd.read_csv("C:/Users/DELL/Downloads/auto-mpg (1).csv")
+
+# Clean data
+auto_data.replace('?', np.nan, inplace=True)
+auto_data.dropna(inplace=True)
+auto_data['horsepower'] = auto_data['horsepower'].astype(float)
+
+# Use horsepower to predict mpg
+X_auto = auto_data[['horsepower']].values
+y_auto = auto_data['mpg'].values
+
+# Polynomial Features
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(X_auto)
+
+# Train/test split
+X_train, X_test, y_train, y_test = train_test_split(X_poly, y_auto, test_size=0.2, random_state=42)
+
+# Train model
+poly_reg = LinearRegression()
+poly_reg.fit(X_train, y_train)
+
+# Predict
+y_pred = poly_reg.predict(X_test)
+
+# Sort for plotting
+sort_idx = X_test[:, 1].argsort()
+X_sorted = X_test[sort_idx][:, 1]
+y_sorted = y_pred[sort_idx]
+
+# Plot results
+plt.figure(figsize=(8, 5))
+plt.scatter(X_test[:, 1], y_test, color='green', label='Actual')
+plt.plot(X_sorted, y_sorted, color='orange', linewidth=2, label='Predicted')
+plt.title("Polynomial Regression - Auto MPG (Horsepower vs MPG)")
+plt.xlabel("Horsepower")
+plt.ylabel("Miles per Gallon (MPG)")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+print("Polynomial Regression:")
+print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
+print("R^2 Score:", r2_score(y_test, y_pred))
+
+
